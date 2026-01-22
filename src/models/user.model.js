@@ -50,10 +50,9 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next(); // isModified is method provided and password is written in quotes -> It is a syntax
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return; // isModified is method provided and password is written in quotes -> It is a syntax
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
