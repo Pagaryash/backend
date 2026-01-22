@@ -16,7 +16,8 @@ const registerUser = asyncHandler(async (req, res) => {
   // return response
 
   const { fullName, email, username, password } = req.body; // form and json data get from req.body but not from url data (other method for url data)
-  console.log("email: ", email);
+  //console.log("data from req : ", req);
+  //console.log("email: ", email);
   // if (fullName === "") {
   //   throw new ApiError(400, "fullName is required");
   // }
@@ -31,8 +32,18 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(409, "User with email or username");
   }
+  //console.log(req.files);
   const avatarLocalPath = req.files?.avatar?.[0]?.path;
   const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
+  // Older way to solve above line as follows
+  // let coverImageLocalPath;
+  // if (
+  //   req.files &&
+  //   Array.isArray(req.files.coverImage) &&
+  //   req.files.coverImage[0].path
+  // ) {
+  //   coverImageLocalPath = req.files.coverImage[0].path;
+  // }
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar local file is required");
   }
